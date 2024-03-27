@@ -1,0 +1,98 @@
+﻿@page "/addtransaction"
+@using Data
+@using Newtonsoft.Json;
+@inject IJSRuntime JSRuntime
+@inject NotificationService NotificationService
+@inject IApiService ApiService
+@using Services
+
+@inject DialogService DialogService
+
+<h2 class="cus_h1">Thêm Transaction</h2>
+<hr />
+
+
+<RadzenTextArea class="form-control" Rows="18" Style="overflow:auto" @bind-Value="fileContent" />
+<RadzenButton Text="Thêm Text" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="AddTran"/>
+<RadzenButton Text="Upload File" Style="float:inline-end" class="m-2 rz-background-color-info-darker" Click=@ShowInlineDialog />
+
+
+
+@code {
+    //Modal
+    async Task ShowInlineDialog()
+    {
+    var result = await DialogService.OpenAsync("Upload File", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <InputFile OnChange="@HandleFileSelected" class="form-control" accept=".txt, .json" />
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal">
+                <RadzenButton Text="Hủy" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+            </RadzenStack>
+            <RadzenButton Text="Thêm" Click="HandleSubmit" Style="width: 80px;" />
+        </RadzenStack>
+    </RadzenStack>
+        );
+    }
+
+
+    private IBrowserFile selectedFile;
+    private string fileContent;
+
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (selectedFile != null)
+        {
+            if (selectedFile.ContentType == "text/plain" || selectedFile.ContentType == "application/json")
+            {
+                using (var stream = selectedFile.OpenReadStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    // Đọc nội dung của tệp và lưu vào biến fileContent
+                    fileContent = await reader.ReadToEndAsync();
+                }
+
+                DialogService.Close(true);
+                // CloseModal();
+            }
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file");
+
+        }
+    }
+
+    private ResponseApi<string> responseAddTran;
+    
+    private async Task AddTran()
+    {
+        if (fileContent != null && fileContent != "")
+        {
+             responseAddTran = await ApiService.AddTran(fileContent);
+             if(responseAddTran.code == "200")
+             {
+                 NotificationService.Notify(NotificationSeverity.Success, responseAddTran.message);
+             }
+             else
+             {
+                 NotificationService.Notify(NotificationSeverity.Error, responseAddTran.message);
+             }
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập transaction" );
+
+        }
+        fileContent = "";
+    }
+
+
+
+}
+

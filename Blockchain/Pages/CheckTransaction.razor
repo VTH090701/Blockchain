@@ -1,0 +1,74 @@
+﻿@page "/checktransaction"
+@using Data
+@using Services
+@inject IApiService ApiService
+@inject NotificationService NotificationService
+
+@using System.Text.RegularExpressions;
+
+
+<h2 class="cus_h1">Kiểm tra thông tin Transaction</h2>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div style="display:flex">
+            <RadzenText class="m-2">ID Transaction:</RadzenText>
+            <RadzenTextBox Placeholder="Nhập ID" class="form-control w-50" @bind-value="iftran"></RadzenTextBox>
+            <RadzenButton Text="Kiểm tra" Style="float:inline-end" class="rz-background-color-info-light m-1" Click="Checktran" />
+        </div>
+    </div>
+</div>
+
+@if (result != null)
+{
+    <RadzenTextArea class="form-control mt-2" Rows="18" Style="overflow:auto" @bind-Value="result" />
+}
+
+@code {
+
+    private string iftran;
+    private ResponseApi<object> responiftran;
+
+    private string result;
+
+    private async Task Checktran()
+    {
+        if (iftran != null && iftran != "")
+        {
+            responiftran = await ApiService.CheckTran(iftran);
+            if (responiftran.code == "200")
+            {
+                NotificationService.Notify(NotificationSeverity.Success, responiftran.message);
+                
+                string decodedJsonString = responiftran.value.ToString();
+                result = UnicodeHelper.DecodeUnicode(decodedJsonString);
+
+            }
+            else
+            {
+                NotificationService.Notify(NotificationSeverity.Error, responiftran.message);
+            }
+
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập ID Transaction");
+
+        }
+        iftran = "";
+    }
+    
+
+    public class UnicodeHelper
+    {
+        public static string DecodeUnicode(string unicodeString)
+        {
+            return Regex.Replace(unicodeString, @"\\u(?<Value>[a-zA-Z0-9]{4})", m =>
+            {
+                return ((char)int.Parse(m.Groups["Value"].Value, System.Globalization.NumberStyles.HexNumber)).ToString();
+            });
+        }
+    }
+
+}

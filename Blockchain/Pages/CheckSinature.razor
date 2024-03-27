@@ -1,0 +1,143 @@
+﻿@page "/checksinature"
+@using Data
+@inject NotificationService NotificationService
+@using Services
+@inject IApiService ApiService
+@inject DialogService DialogService
+
+@using Newtonsoft.Json; 
+
+<h2 class="cus_h1">Kiểm tra chữ ký</h2>
+<hr />
+
+
+<div class="row">
+    <div style="display:flex">
+        <RadzenText class="m-2">ID Transaction:</RadzenText>
+        <RadzenTextBox Placeholder="Nhập ID" class="form-control w-50" @bind-Value="idsinature"></RadzenTextBox>
+        <RadzenButton Text="Upload File" Style="float:inline-end" class="rz-background-color-info-darker m-1" Click=@ShowInlineDialog />
+    </div>
+</div>
+
+
+<RadzenTextArea class="form-control mt-2" Rows="16" Style="overflow:auto" @bind-Value="fileContent" />
+<RadzenButton Text="Kiểm tra" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="CheckSign" />
+
+
+
+@* @if (entries1 != null)
+{
+    @foreach (var entry in entries)
+    {
+        <span>@entry.name</span>
+        <span>@entry.birthday</span>
+        <span>@entry.encounter</span>
+        <br />
+    } 
+}
+@idsinature1 *@
+ 
+
+@code {
+
+
+
+
+    //Modal
+    async Task ShowInlineDialog()
+    {
+        var result = await DialogService.OpenAsync("Upload File", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <InputFile OnChange="@HandleFileSelected" class="form-control" accept=".txt, .json" />
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
+            <RadzenStack Orientation="Orientation.Horizontal">
+                <RadzenButton Text="Hủy" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+            </RadzenStack>
+            <RadzenButton Text="Thêm" Click="HandleSubmit" Style="width: 80px;" />
+        </RadzenStack>
+    </RadzenStack>
+    );
+    }
+
+    private IBrowserFile selectedFile;
+    private string fileContent;
+
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (selectedFile != null)
+        {
+            if (selectedFile.ContentType == "text/plain" || selectedFile.ContentType == "application/json")
+            {
+                using (var stream = selectedFile.OpenReadStream())
+                using (var reader = new StreamReader(stream))
+                {
+                    fileContent = await reader.ReadToEndAsync();
+                }
+
+                DialogService.Close(true);
+            }
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file");
+
+        }
+    }
+
+
+
+    private string idsinature;
+    private string idsinature1;
+
+    List<Entry> entries = new List<Entry>();
+    List<Entry> entries1 = new List<Entry>();
+
+
+    // private string signature;
+    private ResponseApi<string> responseCheckSign;
+
+    private async Task CheckSign()
+    {  
+
+     
+
+        if ( (fileContent != null && fileContent != "") && (idsinature != null && idsinature != ""))
+        {
+            Sinature data = JsonConvert.DeserializeObject<Sinature>(fileContent);
+            if (data != null && data.entry != null)
+            {
+                entries.AddRange(data.entry);
+            }
+
+            entries1 = entries;
+            idsinature1 = idsinature;
+             responseCheckSign = await ApiService.CheckSign(idsinature,entries);
+             if (responseCheckSign.code == "200")
+             {
+                 NotificationService.Notify(NotificationSeverity.Success, responseCheckSign.message);
+                //NotificationService.Notify(NotificationSeverity.Success, "Gửi thành công");
+             }
+             else
+             {
+                 NotificationService.Notify(NotificationSeverity.Error, responseCheckSign.message);
+             }
+
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập đầy đủ các thông tin");
+
+        }
+
+        idsinature = "";
+        fileContent = "";
+
+     
+    }
+    
+}

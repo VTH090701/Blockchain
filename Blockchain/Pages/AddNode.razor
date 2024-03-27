@@ -1,0 +1,122 @@
+﻿@page "/addnode"
+@using Data
+@inject NotificationService NotificationService
+@using Services
+@inject IApiService ApiService
+
+
+
+<h2 class="cus_h1">Thêm Node</h2>
+<hr />
+
+ <div class="container">
+    <div class="row">
+        
+        <div class="col-md-4 ">
+            <h4 class="text-center">Nhập node</h4>
+            <div class="row">
+                <div style="display:flex">
+                    <RadzenTextBox Placeholder="Nhập node" class="form-control " @bind-Value="newnodes" MaxLength="15" ></RadzenTextBox>
+                    <RadzenButton Text="Lưu" class="rz-background-color-info-light" Click="AddIPAddress" />
+                </div>
+            </div>  
+        </div>
+        <div class="col-md-8 ">
+            <h4 class="text-center">Danh sách các node đã thêm</h4>
+            @if (nodes.Count > 0)
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var node in nodes)
+                    {
+                        <li class="list-group-item">
+                            <span > @node </span>
+                            <RadzenButton Icon="delete" class="rz-background-color-danger" Size="ButtonSize.Small" Style="float:inline-end" Click="() => RemoveIPAddress(node)" />
+                        </li>
+                    }
+                </ul>
+                <RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-dark mt-3" Text="Thêm mới" Style="float:inline-end" Click="AddIPAddressNew" />
+            }
+            else
+            {
+                <h5 class="text-center" style="font-style: italic;color:darkgray">Chưa có dữ liệu</h5>
+            }
+
+        </div>
+     
+    </div>
+</div> 
+
+
+
+@code {
+
+
+
+    private List<string> nodes = new List<string>();
+    private string newnodes;
+
+    private void AddIPAddress()
+    {
+        if (!string.IsNullOrWhiteSpace(newnodes))
+        {
+            nodes.Add(newnodes);
+            newnodes = string.Empty;
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập node");
+
+        }
+    }
+    private void RemoveIPAddress(string ipAddress)
+    {
+        nodes.Remove(ipAddress);
+    }
+
+
+    // private void FormatIPAddress(ChangeEventArgs e)
+    // {
+    //     string input = e.Value?.ToString();
+    //     if (string.IsNullOrEmpty(input))
+    //         return;
+    //     input = input.Replace(".", "");
+    //     if (input.Length > 3)
+    //     {
+    //         string formatted = input.Insert(3, ".");
+    //         if (input.Length > 7)
+    //         {
+    //             formatted = formatted.Insert(7, ".");
+    //             if (input.Length > 11)
+    //             {
+    //                 formatted = formatted.Insert(11, ".");
+    //             }
+    //             newnodes = formatted;
+    //         }
+    //         else
+    //         {
+    //             newnodes = input;
+    //         }
+    //     }
+    // }
+
+ 
+    private ResponseApi<List<string>> response;
+
+    private async Task AddIPAddressNew()
+    {
+        if (nodes != null )
+        {
+            response = await ApiService.RegisterNode(nodes);
+            NotificationService.Notify(NotificationSeverity.Success, response.message);
+
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Success,"Danh sách đang rỗng");
+
+        }
+        nodes = new List<string>();
+
+    }
+
+}

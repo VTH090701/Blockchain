@@ -1,0 +1,60 @@
+﻿@page "/"
+@using Services
+@using Data
+@inject IApiService ApiService
+@inject NotificationService NotificationService
+@inject Microsoft.Extensions.Options.IOptions<ApiSettings> ApiSettings
+
+
+<h2 class="cus_h1"> Trang chủ</h2>
+<hr />
+
+<RadzenButton Size="ButtonSize.Medium" class="rz-background-color-primary-darker m-1" Text="Mất kết nối tất cả" Style="float:inline-end" Click="BackupDaAll" />
+<RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-dark m-1" Text="Backup dữ liệu" Style="float:inline-end" Click="BackupDa" />
+<RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-light m-1" Text="Đặt node mặc định" Style="float:inline-end" Click="DefauNode" />
+
+
+@code {
+
+
+    private ResponseApi<string> responseData;
+    private ResponseApi<string> responseDefault;
+    private ResponseApi<string> responseDataAll;
+    private async void DefauNode()
+    {
+        responseDefault = await ApiService.DefaultNode();
+        NotificationService.Notify(NotificationSeverity.Success, responseDefault.message);
+
+    }
+
+    private async void BackupDa()
+    {
+        responseData = await ApiService.BackupData();
+        if(responseData.code == "200")
+        {
+            NotificationService.Notify(NotificationSeverity.Success, responseData.message);
+
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, responseData.message);
+
+        }
+
+    }
+    private async void BackupDaAll ()
+    {
+        responseDataAll = await ApiService.BackupDataAll();
+        if (responseDataAll.code == "200")
+        {
+            NotificationService.Notify(NotificationSeverity.Success, responseDataAll.message);
+
+        }
+        else
+        {
+            NotificationService.Notify(NotificationSeverity.Error, responseDataAll.message);
+
+        }
+    }
+   
+}
