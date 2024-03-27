@@ -56,10 +56,15 @@
                     // Đọc nội dung của tệp và lưu vào biến fileContent
                     fileContent = await reader.ReadToEndAsync();
                 }
-
-                DialogService.Close(true);
                 // CloseModal();
             }
+            else
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file đuôi .json hoặc .txt");
+
+            }
+            DialogService.Close(true);
+
         }
         else
         {

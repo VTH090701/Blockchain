@@ -73,10 +73,8 @@ namespace Blockchain.Services
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
 
                 //var content = new StringContent(signature, System.Text.Encoding.UTF8, "application/json");
-
                 //var request = new HttpRequestMessage(HttpMethod.Post, $"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/verify_sinature");
                 //request.Content = content;
-
                 //var response = await httpClient.SendAsync(request);
                 //return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
 
@@ -96,7 +94,6 @@ namespace Blockchain.Services
                 var response = await httpClient.GetAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/backup_disconnect");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
-
             }
             catch (Exception ex)
             {
@@ -112,7 +109,6 @@ namespace Blockchain.Services
                 var response = await httpClient.GetAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/backup_disconnect_all");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
-
             }
             catch (Exception ex)
             {
@@ -128,7 +124,6 @@ namespace Blockchain.Services
                 var response = await httpClient.GetAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/default_postgresql");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
-
             }
             catch (Exception ex)
             {
@@ -136,8 +131,6 @@ namespace Blockchain.Services
 
             }
         }
-
-
 
       
 
