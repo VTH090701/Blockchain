@@ -16,7 +16,6 @@ namespace Blockchain.Services
     public class ApiService : IApiService
     {
         private readonly HttpClient httpClient;
-
         private readonly ApiSettings apiSettings;
 
 
@@ -43,40 +42,49 @@ namespace Blockchain.Services
 
             }
         }
-        public async Task<ResponseApi<string>> AddTran(string fileContent)
+        public async Task<ResponseApi<string>> CheckSign(string id, List<object> entries)
         {
             try
             {
-                var content = new StringContent(fileContent, System.Text.Encoding.UTF8, "application/json");
-                var request = new HttpRequestMessage(HttpMethod.Post, $"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/transactions");
-                request.Content = content;
-
-                var response = await httpClient.SendAsync(request);
-                return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
-            }
-            catch (Exception ex)
-            {
-                throw new NotImplementedException();
-
-            }
-        }
-        public async Task<ResponseApi<string>> CheckSign(string id, List<Entry> entries)
-        {
-            try
-            {
-                var Data = new
+                var requestData = new
                 {
                     entry = entries,
                     id = id
                 };
-                var response = await httpClient.PostAsJsonAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/verify_sinature", Data);
+
+                var jsonContent = JsonConvert.SerializeObject(requestData);
+                var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/verify_sinature");
+                request.Content = content;
+                var response = await httpClient.SendAsync(request);
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
 
-                //var content = new StringContent(signature, System.Text.Encoding.UTF8, "application/json");
-                //var request = new HttpRequestMessage(HttpMethod.Post, $"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/verify_sinature");
-                //request.Content = content;
-                //var response = await httpClient.SendAsync(request);
+
+                //var data = new
+                //{
+                //    entry = entries,
+                //    id = id
+                //};
+                //var response = await httpClient.PostAsJsonAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/verify_sinature", data);
                 //return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
+            }
+            catch (Exception ex)
+            {
+                throw new NotImplementedException();
+
+            }
+        }
+        public async Task<ResponseApi<string>> AddTran(string fileContent)
+        {
+            try
+            {
+
+                var content = new StringContent(fileContent, System.Text.Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/transactions");
+                request.Content = content;
+                var response = await httpClient.SendAsync(request);
+                return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
+                
 
             }
             catch (Exception ex)
@@ -85,7 +93,6 @@ namespace Blockchain.Services
 
             }
         }
-
 
         public async Task<ResponseApi<string>> BackupData()
         {

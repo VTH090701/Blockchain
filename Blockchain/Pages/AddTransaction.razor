@@ -5,20 +5,22 @@
 @inject NotificationService NotificationService
 @inject IApiService ApiService
 @using Services
-
 @inject DialogService DialogService
+
+@using System.Text;
 
 <h2 class="cus_h1">Thêm Transaction</h2>
 <hr />
 
 
-<RadzenTextArea class="form-control" Rows="18" Style="overflow:auto" @bind-Value="fileContent" />
+<RadzenTextArea Rows="18"  class="form-control" @bind-Value="fileContent" /> 
 <RadzenButton Text="Thêm Text" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="AddTran"/>
 <RadzenButton Text="Upload File" Style="float:inline-end" class="m-2 rz-background-color-info-darker" Click=@ShowInlineDialog />
 
 
 
 @code {
+     
     //Modal
     async Task ShowInlineDialog()
     {
@@ -37,7 +39,7 @@
 
 
     private IBrowserFile selectedFile;
-    private string fileContent;
+    private string fileContent ="";
 
     private void HandleFileSelected(InputFileChangeEventArgs e)
     {
@@ -53,14 +55,12 @@
                 using (var stream = selectedFile.OpenReadStream())
                 using (var reader = new StreamReader(stream))
                 {
-                    // Đọc nội dung của tệp và lưu vào biến fileContent
                     fileContent = await reader.ReadToEndAsync();
                 }
-                // CloseModal();
             }
             else
             {
-                NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file đuôi .json hoặc .txt");
+                NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file .json hoặc .txt");
 
             }
             DialogService.Close(true);
@@ -74,13 +74,15 @@
     }
 
     private ResponseApi<string> responseAddTran;
-    
+
+
+
     private async Task AddTran()
     {
-        if (fileContent != null && fileContent != "")
+        if (!string.IsNullOrEmpty(fileContent))
         {
-             responseAddTran = await ApiService.AddTran(fileContent);
-             if(responseAddTran.code == "200")
+            responseAddTran = await ApiService.AddTran(fileContent);
+             if (responseAddTran.code == "200")
              {
                  NotificationService.Notify(NotificationSeverity.Success, responseAddTran.message);
              }
@@ -88,14 +90,13 @@
              {
                  NotificationService.Notify(NotificationSeverity.Error, responseAddTran.message);
              }
-        }
-        else
-        {
-            NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập transaction" );
-
-        }
-        fileContent = "";
-    }
+         }
+         else
+         {
+             NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập transaction");
+         }
+         fileContent = "";
+     }
 
 
 

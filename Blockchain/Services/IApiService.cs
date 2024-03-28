@@ -11,7 +11,7 @@ namespace Blockchain.Services
         Task<ResponseApi<List<string>>> RegisterNode(List<string> listnode);
 
         Task<ResponseApi<string>> AddTran(string transaction);
-        Task<ResponseApi<string>> CheckSign(string id,List<Entry> entries);
+        Task<ResponseApi<string>> CheckSign(string id,List<object> entries);
 
         Task<ResponseApi<object>> CheckTran(string transaction);
     }

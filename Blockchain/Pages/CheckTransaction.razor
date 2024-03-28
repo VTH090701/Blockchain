@@ -34,7 +34,7 @@
 
     private async Task Checktran()
     {
-        if (iftran != null && iftran != "")
+        if (!string.IsNullOrEmpty(iftran))
         {
             responiftran = await ApiService.CheckTran(iftran);
             if (responiftran.code == "200")

@@ -25,17 +25,7 @@
 
 
 
-@* @if (entries1 != null)
-{
-    @foreach (var entry in entries)
-    {
-        <span>@entry.name</span>
-        <span>@entry.birthday</span>
-        <span>@entry.encounter</span>
-        <br />
-    } 
-}
-@idsinature1 *@
+
  
 
 @code {
@@ -81,6 +71,10 @@
 
                 DialogService.Close(true);
             }
+            else
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file .json hoặc .txt");
+            }
         }
         else
         {
@@ -92,52 +86,53 @@
 
 
     private string idsinature;
-    private string idsinature1;
 
-    List<Entry> entries = new List<Entry>();
-    List<Entry> entries1 = new List<Entry>();
+    private List<object> entries = new List<object>();
 
 
     // private string signature;
     private ResponseApi<string> responseCheckSign;
 
     private async Task CheckSign()
-    {  
-
-     
-
-        if ( (fileContent != null && fileContent != "") && (idsinature != null && idsinature != ""))
+    {
+        if (!string.IsNullOrEmpty(fileContent) && !string.IsNullOrEmpty(idsinature))
         {
-            Sinature data = JsonConvert.DeserializeObject<Sinature>(fileContent);
-            if (data != null && data.entry != null)
+            try
             {
-                entries.AddRange(data.entry);
+                Sinature<object> data = JsonConvert.DeserializeObject<Sinature<object>>(fileContent);
+                if (data != null && data.entry != null && data.entry.Any())
+                {
+                    entries.AddRange(data.entry);
+
+                    responseCheckSign = await ApiService.CheckSign(idsinature, entries);
+
+                    if (responseCheckSign.code == "200")
+                    {
+                        NotificationService.Notify(NotificationSeverity.Success, responseCheckSign.message);
+                    }
+                    else
+                    {
+                        NotificationService.Notify(NotificationSeverity.Error, responseCheckSign.message);
+                    }
+                }
+                else
+                {
+                    NotificationService.Notify(NotificationSeverity.Error, "Không có dữ liệu entry");
+                }
             }
-
-            entries1 = entries;
-            idsinature1 = idsinature;
-             responseCheckSign = await ApiService.CheckSign(idsinature,entries);
-             if (responseCheckSign.code == "200")
-             {
-                 NotificationService.Notify(NotificationSeverity.Success, responseCheckSign.message);
-                //NotificationService.Notify(NotificationSeverity.Success, "Gửi thành công");
-             }
-             else
-             {
-                 NotificationService.Notify(NotificationSeverity.Error, responseCheckSign.message);
-             }
-
+            catch (JsonException)
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Dữ liệu không hợp lệ");
+            }
         }
         else
         {
             NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập đầy đủ các thông tin");
-
         }
 
+        entries = new List<object>();
         idsinature = "";
         fileContent = "";
-
-     
     }
     
 }

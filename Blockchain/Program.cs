@@ -22,6 +22,9 @@ builder.Services.AddTransient<IApiService,ApiService>();
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 
 
+//Limit Textarea
+builder.Services.AddSignalR(options => { options.MaximumReceiveMessageSize = null; });
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

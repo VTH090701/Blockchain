@@ -1,12 +1,10 @@
 ﻿namespace Blockchain.Data
 {
-    public class Sinature
+    public class Sinature<T>
     {
         public string id { get; set; }
-        public List<Entry> entry { get; set; }
+        public List<T> entry { get; set; }
     }
-
-
 
     public class Entry
     {
