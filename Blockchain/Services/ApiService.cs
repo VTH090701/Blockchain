@@ -24,6 +24,7 @@ namespace Blockchain.Services
             httpClient = http;
             apiSettings = apiSettingsOptions.Value;
         }
+        
         public async Task<ResponseApi<List<string>>> RegisterNode(List<string> listnode)
         {
             try
@@ -36,12 +37,13 @@ namespace Blockchain.Services
                 return await response.Content.ReadFromJsonAsync<ResponseApi<List<string>>>();
 
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                throw new NotImplementedException();
-
+                Console.WriteLine($"Lỗi kết nối API: {ex.Message}");
+                throw;
             }
         }
+        
         public async Task<ResponseApi<string>> CheckSign(string id, List<object> entries)
         {
             try
@@ -58,25 +60,14 @@ namespace Blockchain.Services
                 request.Content = content;
                 var response = await httpClient.SendAsync(request);
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
-
-
-                //var data = new
-                //{
-                //    entry = entries,
-                //    id = id
-                //};
-                //var jsonContent = JsonConvert.SerializeObject(data);
-                //var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
-                //var response = await httpClient.PostAsJsonAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/verify_sinature", data);
-                //return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
-
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                throw new NotImplementedException();
-
+                Console.WriteLine($"Lỗi kết nối API: {ex.Message}");
+                throw;
             }
         }
+        
         public async Task<ResponseApi<string>> AddTran(string fileContent)
         {
             try
@@ -90,13 +81,12 @@ namespace Blockchain.Services
                 
                 
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                throw new NotImplementedException();
+                Console.WriteLine($"Lỗi kết nối API: {ex.Message}");
+                throw;
             }
         }
-
-
 
 
         public async Task<ResponseApi<string>> BackupData()
@@ -107,9 +97,10 @@ namespace Blockchain.Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                throw new NotImplementedException();
+                Console.WriteLine($"Lỗi kết nối API: {ex.Message}");
+                throw;
             }
         }
 
@@ -121,12 +112,13 @@ namespace Blockchain.Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                throw new NotImplementedException();
-
+                Console.WriteLine($"Lỗi kết nối API: {ex.Message}");
+                throw;
             }
         }
+
 
         public async Task<ResponseApi<string>> DefaultNode()
         {
@@ -136,10 +128,10 @@ namespace Blockchain.Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                throw new NotImplementedException();
-
+                Console.WriteLine($"Lỗi kết nối API: {ex.Message}");
+                throw;
             }
         }
 
@@ -151,10 +143,10 @@ namespace Blockchain.Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<object>>();
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                throw new NotImplementedException();
-                    
+                Console.WriteLine($"Lỗi kết nối API: {ex.Message}");
+                throw;
             }
         }
 

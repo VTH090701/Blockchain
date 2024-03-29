@@ -1,19 +1,20 @@
 ﻿@page "/addnode"
-@using Data
 @inject NotificationService NotificationService
-@using Services
 @inject IApiService ApiService
+@using Data
+@using Services
 
 
 
-<h2 class="cus_h1">Add Node</h2>
+
+<h2 class="cus_h1">Add nodes</h2>
 <hr />
 
  <div class="container">
     <div class="row">
         
         <div class="col-md-4 ">
-            <h4 class="text-center">Add node</h4>
+            <h4 class="text-center">Add nodes</h4>
             <div class="row">
                 <div style="display:flex">
                     <RadzenTextBox Placeholder="Enter node" class="form-control " @bind-Value="newnodes" MaxLength="15" ></RadzenTextBox>

@@ -7,7 +7,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <base href="~/" />
+    
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="css/style_th.css" rel="stylesheet" />
@@ -37,7 +39,18 @@
     
     @* Radzen *@
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
-    
     <script src="_framework/blazor.server.js"></script>
+
+    @* <script src="_framework/blazor.server.js"></script>*@
+    @* <script src="_framework/blazor.server.js"></script>
+    <script>
+        Blazor.start({
+            configureSignalR: function (builder) {
+                builder.withUrl("/");
+            }
+        });
+    </script> *@
+
+  
 </body>
 </html>

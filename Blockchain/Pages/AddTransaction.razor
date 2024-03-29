@@ -1,11 +1,10 @@
 ﻿@page "/addtransaction"
-@using Data
-@using Newtonsoft.Json;
-@inject IJSRuntime JSRuntime
+@inject DialogService DialogService
 @inject NotificationService NotificationService
 @inject IApiService ApiService
 @using Services
-@inject DialogService DialogService
+@using Data
+@using Newtonsoft.Json;
 
 @using System.Text;
 
@@ -51,11 +50,16 @@
         {
             if (selectedFile.ContentType == "text/plain" || selectedFile.ContentType == "application/json")
             {
-                using (var stream = selectedFile.OpenReadStream())
-                using (var reader = new StreamReader(stream))
-                {
-                    fileContent = await reader.ReadToEndAsync();
-                }
+                 using (var stream = selectedFile.OpenReadStream())
+                 using (var reader = new StreamReader(stream))
+                 {
+                     fileContent = await reader.ReadToEndAsync();
+                 }
+
+                // var stream = selectedFile.OpenReadStream();
+                // var reader = new StreamReader(stream);
+                // fileContent = await reader.ReadToEndAsync();
+
             }
             else
             {
@@ -70,13 +74,13 @@
         }
     }
 
-    private ResponseApi<string> responseAddTran;
 
+    private ResponseApi<string> responseAddTran;
     private async Task AddTran()
     {
         if (!string.IsNullOrEmpty(fileContent))
         {
-            responseAddTran = await ApiService.AddTran(fileContent);
+             responseAddTran = await ApiService.AddTran(fileContent);
              if (responseAddTran.code == "200")
              {
                  NotificationService.Notify(NotificationSeverity.Success, responseAddTran.message);

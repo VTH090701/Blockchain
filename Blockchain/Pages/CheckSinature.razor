@@ -1,16 +1,15 @@
 ﻿@page "/checksinature"
-@using Data
 @inject NotificationService NotificationService
-@using Services
-@inject IApiService ApiService
 @inject DialogService DialogService
+@inject IApiService ApiService
+@using Data
+@using Services
+@using Newtonsoft.Json;
 
-@using Newtonsoft.Json; 
+
 
 <h2 class="cus_h1">Check signature</h2>
 <hr />
-
-
 <div class="row">
     <div style="display:flex">
         <RadzenText class="m-2">ID Signature:</RadzenText>
@@ -21,6 +20,7 @@
 
 <RadzenTextArea class="form-control mt-2" Rows="16" Style="overflow:auto" @bind-Value="fileContent" />
 <RadzenButton Text="Check" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="CheckSign" />
+
 
 @code {
 
@@ -59,6 +59,10 @@
                 {
                     fileContent = await reader.ReadToEndAsync();
                 }
+
+                // var stream = selectedFile.OpenReadStream();
+                // var reader = new StreamReader(stream);
+                // fileContent = await reader.ReadToEndAsync();
             }
             else
             {
@@ -78,11 +82,7 @@
 
 
     private string idsinature;
-
     private List<object> entries = new List<object>();
-
-
-    // private string signature;
     private ResponseApi<string> responseCheckSign;
 
     private async Task CheckSign()
