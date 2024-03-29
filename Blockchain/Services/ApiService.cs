@@ -65,8 +65,11 @@ namespace Blockchain.Services
                 //    entry = entries,
                 //    id = id
                 //};
+                //var jsonContent = JsonConvert.SerializeObject(data);
+                //var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
                 //var response = await httpClient.PostAsJsonAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/verify_sinature", data);
                 //return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
+
             }
             catch (Exception ex)
             {
@@ -85,14 +88,16 @@ namespace Blockchain.Services
                 var response = await httpClient.SendAsync(request);
                 return await response.Content.ReadFromJsonAsync<ResponseApi<string>>();
                 
-
+                
             }
             catch (Exception ex)
             {
                 throw new NotImplementedException();
-
             }
         }
+
+
+
 
         public async Task<ResponseApi<string>> BackupData()
         {
@@ -105,7 +110,6 @@ namespace Blockchain.Services
             catch (Exception ex)
             {
                 throw new NotImplementedException();
-
             }
         }
 
@@ -139,16 +143,13 @@ namespace Blockchain.Services
             }
         }
 
-      
-
         public async Task<ResponseApi<object>> CheckTran(string transaction)
         {
             try
-            {
-                var request = new HttpRequestMessage(HttpMethod.Get, $"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/chain/get_id_block/{transaction}");
-                var response = await httpClient.SendAsync(request);
+            {   
+                var response = await httpClient.GetAsync($"{apiSettings.BaseUrl}:{apiSettings.PortUrl}/chain/get_id_block/{transaction}");
+                response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<ResponseApi<object>>();
-
             }
             catch (Exception ex)
             {

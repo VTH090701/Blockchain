@@ -9,14 +9,13 @@
 
 @using System.Text;
 
-<h2 class="cus_h1">Thêm Transaction</h2>
+<h2 class="cus_h1">Add transaction</h2>
 <hr />
 
 
 <RadzenTextArea Rows="18"  class="form-control" @bind-Value="fileContent" /> 
-<RadzenButton Text="Thêm Text" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="AddTran"/>
+<RadzenButton Text="Add" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="AddTran"/>
 <RadzenButton Text="Upload File" Style="float:inline-end" class="m-2 rz-background-color-info-darker" Click=@ShowInlineDialog />
-
 
 
 @code {
@@ -29,9 +28,9 @@
         <InputFile OnChange="@HandleFileSelected" class="form-control" accept=".txt, .json" />
         <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
             <RadzenStack Orientation="Orientation.Horizontal">
-                <RadzenButton Text="Hủy" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
             </RadzenStack>
-            <RadzenButton Text="Thêm" Click="HandleSubmit" Style="width: 80px;" />
+            <RadzenButton Text="Add" Click="HandleSubmit" Style="width: 80px;" />
         </RadzenStack>
     </RadzenStack>
         );
@@ -61,10 +60,8 @@
             else
             {
                 NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file .json hoặc .txt");
-
             }
             DialogService.Close(true);
-
         }
         else
         {
@@ -74,8 +71,6 @@
     }
 
     private ResponseApi<string> responseAddTran;
-
-
 
     private async Task AddTran()
     {
@@ -96,8 +91,7 @@
              NotificationService.Notify(NotificationSeverity.Error, "Hãy nhập transaction");
          }
          fileContent = "";
-     }
-
+    }
 
 
 }

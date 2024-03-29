@@ -43,10 +43,4 @@ app.MapFallbackToPage("/_Host");
 
 app.Run();
 
-app.UseCors(builder =>
-{
-    builder.WithOrigins("http://localhost:5192")
-           .AllowAnyHeader()
-           .AllowAnyMethod();
-});
 

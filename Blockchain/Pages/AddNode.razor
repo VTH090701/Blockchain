@@ -6,23 +6,23 @@
 
 
 
-<h2 class="cus_h1">Thêm Node</h2>
+<h2 class="cus_h1">Add Node</h2>
 <hr />
 
  <div class="container">
     <div class="row">
         
         <div class="col-md-4 ">
-            <h4 class="text-center">Nhập node</h4>
+            <h4 class="text-center">Add node</h4>
             <div class="row">
                 <div style="display:flex">
-                    <RadzenTextBox Placeholder="Nhập node" class="form-control " @bind-Value="newnodes" MaxLength="15" ></RadzenTextBox>
-                    <RadzenButton Text="Lưu" class="rz-background-color-info-light" Click="AddIPAddress" />
+                    <RadzenTextBox Placeholder="Enter node" class="form-control " @bind-Value="newnodes" MaxLength="15" ></RadzenTextBox>
+                    <RadzenButton Text="Save" class="rz-background-color-info-light" Click="AddIPAddress" />
                 </div>
             </div>  
         </div>
         <div class="col-md-8 ">
-            <h4 class="text-center">Danh sách các node đã thêm</h4>
+            <h4 class="text-center">List of added nodes</h4>
             @if (nodes.Count > 0)
             {
                 <ul class="list-group list-group-flush">
@@ -31,6 +31,7 @@
                         <li class="list-group-item">
                             <span > @node </span>
                             <RadzenButton Icon="delete" class="rz-background-color-danger" Size="ButtonSize.Small" Style="float:inline-end" Click="() => RemoveIPAddress(node)" />
+                             
                         </li>
                     }
                 </ul>
@@ -38,7 +39,7 @@
             }
             else
             {
-                <h5 class="text-center" style="color:darkgray">Chưa có dữ liệu</h5>
+                <h5 class="text-center" style="color:darkgray">No data</h5>
             }
 
         </div>
@@ -50,11 +51,8 @@
 
 @code {
 
-
-
     private List<string> nodes = new List<string>();
     private string newnodes;
-
     private void AddIPAddress()
     {
         if (!string.IsNullOrWhiteSpace(newnodes))
@@ -73,35 +71,7 @@
         nodes.Remove(ipAddress);
     }
 
-
-    // private void FormatIPAddress(ChangeEventArgs e)
-    // {
-    //     string input = e.Value?.ToString();
-    //     if (string.IsNullOrEmpty(input))
-    //         return;
-    //     input = input.Replace(".", "");
-    //     if (input.Length > 3)
-    //     {
-    //         string formatted = input.Insert(3, ".");
-    //         if (input.Length > 7)
-    //         {
-    //             formatted = formatted.Insert(7, ".");
-    //             if (input.Length > 11)
-    //             {
-    //                 formatted = formatted.Insert(11, ".");
-    //             }
-    //             newnodes = formatted;
-    //         }
-    //         else
-    //         {
-    //             newnodes = input;
-    //         }
-    //     }
-    // }
-
- 
     private ResponseApi<List<string>> response;
-
     private async Task AddIPAddressNew()
     {
         if (nodes != null )
@@ -117,5 +87,6 @@
         nodes = new List<string>();
 
     }
+
 
 }

@@ -4,22 +4,6 @@
    VASD
 </PageTitle>
 
-@* <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
- *@
  <RadzenLayout>
     <RadzenHeader class="rz-background-color-info-light">
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
@@ -30,17 +14,11 @@
     </RadzenHeader>
     <RadzenSidebar Responsive="false" Style="width: max-content">
         <RadzenPanelMenu DisplayStyle="@(sidebarExpanded ? MenuItemDisplayStyle.IconAndText : MenuItemDisplayStyle.Icon)" ShowArrow="false">
-            <RadzenPanelMenuItem Text="Trang chủ" Icon="home" Path="" />
-            <RadzenPanelMenuItem Text="Thêm node" Icon="add" Path="addnode" />
-            <RadzenPanelMenuItem Text="Thêm transaction" Icon="add_circle" Path="addtransaction" />
-            <RadzenPanelMenuItem Text="Kiểm tra chữ ký" Icon="check" Path="checksinature" />
-            <RadzenPanelMenuItem Text="Kiểm tra Transaction" Icon="done_all" Path="checktransaction" />
-
-                        
-            @* <RadzenPanelMenuItem Text="FectchData" Icon="auto_awesome">
-                <RadzenPanelMenuItem Text="Themes" Icon="color_lens" />
-                <RadzenPanelMenuItem Text="Colors" Icon="invert_colors" />
-            </RadzenPanelMenuItem> *@
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="" />
+            <RadzenPanelMenuItem Text="Add node" Icon="add" Path="addnode" />
+            <RadzenPanelMenuItem Text="Add transaction" Icon="add_circle" Path="addtransaction" />
+            <RadzenPanelMenuItem Text="Check signature" Icon="check" Path="checksinature" />
+            <RadzenPanelMenuItem Text="Check Transaction" Icon="done_all" Path="checktransaction" />
 
         </RadzenPanelMenu>
     </RadzenSidebar>
