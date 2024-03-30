@@ -14,7 +14,7 @@
 
 <RadzenTextArea Rows="18"  class="form-control" @bind-Value="fileContent" /> 
 <RadzenButton Text="Add" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="AddTran"/>
-<RadzenButton Text="Upload File" Style="float:inline-end" class="m-2 rz-background-color-info-darker" Click=@ShowInlineDialog />
+<RadzenButton Text="Upload File" Style="float:inline-end" class="m-2 rz-background-color-info-darker" Click=ShowInlineDialog />
 
 
 @code {
@@ -50,21 +50,20 @@
         {
             if (selectedFile.ContentType == "text/plain" || selectedFile.ContentType == "application/json")
             {
+                 
                  using (var stream = selectedFile.OpenReadStream())
                  using (var reader = new StreamReader(stream))
                  {
                      fileContent = await reader.ReadToEndAsync();
-                 }
-
-                // var stream = selectedFile.OpenReadStream();
-                // var reader = new StreamReader(stream);
-                // fileContent = await reader.ReadToEndAsync();
-
+                 }                      
+                    
+                        
             }
             else
             {
                 NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file .json hoặc .txt");
             }
+            selectedFile = null;
             DialogService.Close(true);
         }
         else

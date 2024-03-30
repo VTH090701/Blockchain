@@ -37,7 +37,6 @@
             if (responiftran.code == "200")
             {
                 NotificationService.Notify(NotificationSeverity.Success, responiftran.message);
-                
                 string decodedJsonString = responiftran.value.ToString();
                 result = UnicodeHelper.DecodeUnicode(decodedJsonString);
 
@@ -56,7 +55,7 @@
         iftran = "";
     }
     
-
+     
     public class UnicodeHelper
     {
         public static string DecodeUnicode(string unicodeString)

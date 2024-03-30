@@ -14,7 +14,7 @@
     <div style="display:flex">
         <RadzenText class="m-2">ID Signature:</RadzenText>
         <RadzenTextBox Placeholder="Enter ID" class="form-control w-50" @bind-Value="idsinature"></RadzenTextBox>
-        <RadzenButton Text="Upload File" Style="float:inline-end" class="rz-background-color-info-darker m-1" Click=@ShowInlineDialog />
+        <RadzenButton Text="Upload File" Style="float:inline-end" class="rz-background-color-info-darker m-1" Click=ShowInlineDialog />
     </div>
 </div>
 
@@ -29,7 +29,7 @@
     {
         var result = await DialogService.OpenAsync("Upload File", ds =>
     @<RadzenStack Gap="1.5rem">
-        <InputFile OnChange="@HandleFileSelected" class="form-control" accept=".txt, .json" />
+        <InputFile OnChange="HandleFileSelected" class="form-control" accept=".txt, .json" />
         <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
             <RadzenStack Orientation="Orientation.Horizontal">
                 <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
@@ -59,18 +59,14 @@
                 {
                     fileContent = await reader.ReadToEndAsync();
                 }
-
-                // var stream = selectedFile.OpenReadStream();
-                // var reader = new StreamReader(stream);
-                // fileContent = await reader.ReadToEndAsync();
             }
             else
             {
                 NotificationService.Notify(NotificationSeverity.Error, "Hãy chọn file .json hoặc .txt");
 
             }
+            selectedFile = null;
             DialogService.Close(true);
-
         }
         else
         {
