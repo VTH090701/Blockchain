@@ -5,17 +5,23 @@
 @using Services
 @using Data
 @using Newtonsoft.Json;
-
 @using System.Text;
 
-<h2 class="cus_h1">Add transaction</h2>
-<hr />
 
+<RadzenText TextStyle="TextStyle.H3">Add transaction</RadzenText>
+<hr /> 
 
-<RadzenTextArea Rows="18"  class="form-control" @bind-Value="fileContent" /> 
-<RadzenButton Text="Add" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="AddTran"/>
-<RadzenButton Text="Upload File" Style="float:inline-end" class="m-2 rz-background-color-info-darker" Click=ShowInlineDialog />
-
+<RadzenRow >
+    <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size=" 12">
+        <RadzenTextArea Rows="18" class="form-control" @bind-Value="fileContent" />
+    </RadzenColumn>
+</RadzenRow>
+<RadzenRow class="rz-mt-3 ">
+    <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size=" 12">
+        <RadzenButton Text="Add" Style="float:inline-end" class=" rz-background-color-info-light rz-ml-1" Click="AddTran" />
+        <RadzenButton Icon="note_add" Text="File" Style="float:inline-end" class=" rz-background-color-info-darker" Click=ShowInlineDialog />
+    </RadzenColumn>
+</RadzenRow>
 
 @code {
      

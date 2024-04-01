@@ -6,14 +6,18 @@
 @inject Microsoft.Extensions.Options.IOptions<ApiSettings> ApiSettings
 
 
-<h2 class="cus_h1"> Home</h2>
+
+
+<RadzenText TextStyle="TextStyle.H3">Dashboard</RadzenText>
 <hr />
 
-<RadzenButton Size="ButtonSize.Medium" class="rz-background-color-primary-darker m-1" Text="All connections lost" Style="float:inline-end" Click="BackupDaAll" />
-<RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-dark m-1" Text="Backup data" Style="float:inline-end" Click="BackupDa" />
-<RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-light m-1" Text="Set default node" Style="float:inline-end" Click="DefauNode" />
-
-
+<RadzenRow>
+    <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size="12">
+        <RadzenButton Size="ButtonSize.Medium" class="rz-background-color-primary-darker m-1" Text="All connections lost" Style="float:inline-end" Click="BackupDaAll" />
+        <RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-dark m-1" Text="Backup data" Style="float:inline-end" Click="BackupDa" />
+        <RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-light m-1" Text="Set default node" Style="float:inline-end" Click="DefauNode" />
+    </RadzenColumn>
+</RadzenRow>
 @code {
 
 

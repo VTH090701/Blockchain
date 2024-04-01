@@ -6,28 +6,44 @@
 @using Services
 @using Newtonsoft.Json;
 
-
-
-<h2 class="cus_h1">Check signature</h2>
+<RadzenText TextStyle="TextStyle.H3">Check signature</RadzenText>
 <hr />
-<div class="row">
-    <div style="display:flex">
-        <RadzenText class="m-2">ID Signature:</RadzenText>
-        <RadzenTextBox Placeholder="Enter ID" class="form-control w-50" @bind-Value="idsinature"></RadzenTextBox>
-        <RadzenButton Text="Upload File" Style="float:inline-end" class="rz-background-color-info-darker m-1" Click=ShowInlineDialog />
-    </div>
-</div>
-
-<RadzenTextArea class="form-control mt-2" Rows="16" Style="overflow:auto" @bind-Value="fileContent" />
-<RadzenButton Text="Check" Style="float:inline-end" class="mt-2 rz-background-color-info-light" Click="CheckSign" />
 
 
+
+<RadzenRow>
+    <RadzenColumn SizeLG="12" SizeMD="12" Size="12">
+        <RadzenRow>
+            <RadzenColumn SizeLG="2" SizeMD="2" SizeSM="2" Size="12">
+                <RadzenText class="text-center">Identification signature:</RadzenText>
+            </RadzenColumn>
+            <RadzenColumn SizeLG="8" SizeMD="8" SizeSM="8" Size="8">
+                <RadzenTextBox Placeholder="Enter identification" class="form-control rz-ml-2 " @bind-Value="idsinature"></RadzenTextBox>
+            </RadzenColumn>
+            <RadzenColumn SizeLG="2" SizeMD="2" SizeSM="2" Size="4">
+                <RadzenButton Icon="note_add" Text="File" class="rz-background-color-info-darker" Click=ShowInlineDialog />
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenColumn>
+</RadzenRow>
+
+<RadzenRow class="rz-mt-2">
+    <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size=" 12">
+        <RadzenTextArea Rows="16" class="form-control" @bind-Value="fileContent" />
+    </RadzenColumn>
+
+</RadzenRow>
+<RadzenRow class="rz-mt-3 ">
+    <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size=" 12">
+        <RadzenButton Text="Check" Style="float:inline-end" class=" rz-background-color-info-light rz-ml-3" Click="CheckSign" />
+    </RadzenColumn>
+</RadzenRow>
 @code {
 
     //Modal
     async Task ShowInlineDialog()
     {
-        var result = await DialogService.OpenAsync("Upload File", ds =>
+    var result = await DialogService.OpenAsync("Upload File", ds =>
     @<RadzenStack Gap="1.5rem">
         <InputFile OnChange="HandleFileSelected" class="form-control" accept=".txt, .json" />
         <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">

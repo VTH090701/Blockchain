@@ -5,23 +5,34 @@
 @using Data
 @using Services
 
-<h2 class="cus_h1">Check transaction</h2>
+<RadzenText TextStyle="TextStyle.H3">Add transaction</RadzenText>
 <hr />
 
-<div class="container">
-    <div class="row">
-        <div style="display:flex">
-            <RadzenText class="m-2">ID Transaction:</RadzenText>
-            <RadzenTextBox Placeholder="Enter ID" class="form-control w-50" @bind-value="iftran"></RadzenTextBox>
-            <RadzenButton Text="Check" Style="float:inline-end" class="rz-background-color-info-light m-1" Click="Checktran" />
-        </div>
-    </div>
-</div>
 
+<RadzenRow>
+    <RadzenColumn SizeLG="12" SizeMD="12" Size="12">
+        <RadzenRow>
+            <RadzenColumn SizeLG="2" SizeMD="2" SizeSM="2" Size="12">
+                <RadzenText class="text-center">Identification transaction:</RadzenText>
+            </RadzenColumn>
+            <RadzenColumn SizeLG="8" SizeMD="8" SizeSM="8" Size="8">
+                <RadzenTextBox Placeholder="Enter identification" class="form-control rz-ml-2 " @bind-value="iftran" ></RadzenTextBox>
+            </RadzenColumn>
+            <RadzenColumn SizeLG="2" SizeMD="2" SizeSM="2" Size="4">
+                <RadzenButton Text="Check" class="rz-background-color-info-light" Click="Checktran" />
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenColumn>
+</RadzenRow>
 @if (result != null)
 {
-    <RadzenTextArea class="form-control mt-2" Rows="18" Style="overflow:auto" @bind-Value="result" />
+    <RadzenRow class="rz-mt-2">
+        <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size=" 12">
+            <RadzenTextArea Rows="17" class="form-control mt-2" @bind-Value="result" />
+        </RadzenColumn>
+    </RadzenRow>
 }
+
 
 @code {
 

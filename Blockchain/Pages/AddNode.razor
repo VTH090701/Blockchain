@@ -5,50 +5,59 @@
 @using Services
 
 
-
-
-<h2 class="cus_h1">Add nodes</h2>
+<RadzenText TextStyle="TextStyle.H3">Add nodes</RadzenText>
 <hr />
 
- <div class="container">
-    <div class="row">
-        
-        <div class="col-md-4 ">
-            <h4 class="text-center">Add nodes</h4>
-            <div class="row">
-                <div style="display:flex">
-                    <RadzenTextBox Placeholder="Enter node" class="form-control " @bind-Value="newnodes" MaxLength="15" ></RadzenTextBox>
-                    <RadzenButton Text="Save" class="rz-background-color-info-light" Click="AddIPAddress" />
-                </div>
-            </div>  
-        </div>
-        <div class="col-md-8 ">
-            <h4 class="text-center">List of added nodes</h4>
-            @if (nodes.Count > 0)
-            {
-                <ul class="list-group list-group-flush">
-                    @foreach (var node in nodes)
-                    {
-                        <li class="list-group-item">
-                            <span > @node </span>
-                            <RadzenButton Icon="delete" class="rz-background-color-danger" Size="ButtonSize.Small" Style="float:inline-end" Click="() => RemoveIPAddress(node)" />
-                             
-                        </li>
-                    }
-                </ul>
-                <RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-dark mt-3" Text="Thêm mới" Style="float:inline-end" Click="AddIPAddressNew" />
-            }
-            else
-            {
-                <h5 class="text-center" style="color:darkgray">No data</h5>
-            }
 
-        </div>
-     
-    </div>
-</div> 
+<RadzenStack>
+    <RadzenRow>
+        <RadzenColumn SizeLG="5" SizeMD="5" Size="12">
+            <RadzenText TextStyle="TextStyle.H5" class="text-center">Add nodes</RadzenText>
+                <RadzenRow>
+                    <RadzenColumn SizeLG="10" SizeMD="10" SizeSM="10" Size="8">
+                        <RadzenTextBox Placeholder="Enter node" class="form-control rz-ml-4" @bind-Value="newnodes" MaxLength="15"></RadzenTextBox>
+                    </RadzenColumn>
+                    <RadzenColumn SizeLG="2" SizeMD="2" SizeSM="2"  Size="4" >
+                        <RadzenButton Text="Save" class="rz-background-color-info-light" Click="AddIPAddress" />
+                    </RadzenColumn>
+                </RadzenRow>
+        </RadzenColumn>
+        <RadzenColumn SizeLG="7" SizeMD="7" Size="12">
+            <RadzenText TextStyle="TextStyle.H5" class="text-center">List of added nodes</RadzenText>
+            
+            <RadzenRow>
+                @if (nodes.Count > 0)
+                {
+                    <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size="12">
+                      @*   <RadzenListBox @bind-Value=@nodes Data=@nodes Style="width:100%" Disabled="true">
+                        </RadzenListBox> *@
+                        <ul class="list-group list-group-flush">
+                            @foreach (var node in nodes)
+                            {
+                                <li class="list-group-item">
+                                    <span> @node </span>
+                                    <RadzenButton Icon="delete" class="rz-background-color-danger" Size="ButtonSize.Small" Style="float:inline-end" Click="() => RemoveIPAddress(node)" />
 
-
+                                </li>
+                            }
+                        </ul>
+                    </RadzenColumn>
+                    <RadzenColumn SizeLG="12" SizeMD="12" SizeSM="12" Size="12">
+                        <RadzenButton Size="ButtonSize.Medium" class="rz-background-color-info-dark" Text="Thêm mới" Style="float:inline-end" Click="AddIPAddressNew" />
+                    </RadzenColumn>
+                }
+                else
+                {
+                    <RadzenColumn SizeLG="12" SizeMD="12" Size="12">
+                        <RadzenText  Style="color:darkgray;font-size:18px" class="text-center">No data</RadzenText>
+                    </RadzenColumn>
+                }
+                    </RadzenRow>
+                <RadzenRow> 
+            </RadzenRow>
+        </RadzenColumn>
+    </RadzenRow>
+ </RadzenStack>
 
 @code {
 
