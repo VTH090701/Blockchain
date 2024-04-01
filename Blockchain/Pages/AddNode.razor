@@ -67,8 +67,18 @@
     {
         if (!string.IsNullOrWhiteSpace(newnodes))
         {
-            nodes.Add(newnodes);
-            newnodes = string.Empty;
+            if (!nodes.Contains(newnodes))
+            {
+                nodes.Add(newnodes);
+                newnodes = string.Empty;
+            }
+            else
+            {
+                NotificationService.Notify(NotificationSeverity.Error, "Nodes đã tồn tại trong danh sách");
+
+            }
+
+           
         }
         else
         {

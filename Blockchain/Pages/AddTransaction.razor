@@ -56,13 +56,11 @@
         {
             if (selectedFile.ContentType == "text/plain" || selectedFile.ContentType == "application/json")
             {
-                 
                  using (var stream = selectedFile.OpenReadStream())
                  using (var reader = new StreamReader(stream))
                  {
                      fileContent = await reader.ReadToEndAsync();
-                 }                      
-                    
+                 }                          
                         
             }
             else

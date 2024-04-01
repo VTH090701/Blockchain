@@ -8,7 +8,6 @@
     <RadzenHeader class="rz-background-color-info-light">
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
             <RadzenSidebarToggle Click="@(() => sidebarExpanded = !sidebarExpanded)" />
-
             <RadzenLabel Text="VASD"  Style="font-weight:bolder;font-size:20px"/>
         </RadzenStack>
     </RadzenHeader>
@@ -35,6 +34,11 @@
     </RadzenFooter>
 </RadzenLayout>
 
+<style>
+    .cus_cate_insibar{
+        font-weight:bold;
+    }
+</style>
 @code {
     bool sidebarExpanded = true;
 }
